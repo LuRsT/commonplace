@@ -87,25 +87,26 @@ class CommonplaceServer < Sinatra::Base
 		end
 	end
 
-	# returns a given page (or file) inside our repository
-	def show(name)
-		if !@wiki.valid?
-			status 500
-			@name = "Wiki directory not found"
-			@error = "We couldn't find the wiki directory your configuration is pointing to.<br/>Fix that, then come back - we'll be happier then."
-			erb :error500
-		else
-			if @page = @wiki.page(name)
-				# may success come to those who enter here.
-				@name = @page.name
-				@content = @page.content
-				erb :show
-			else
-				status 404
-				@newpage = name
-				@name = "404: Page not found"
-				erb :error404
-			end
-		end
-	end
+    # returns a given page (or file) inside our repository
+    def show(name)
+        if !@wiki.valid?
+            status 500
+            @name = "Wiki directory not found"
+            @error = "We couldn't find the wiki directory your configuration is pointing to.<br/>Fix that, then come back - we'll be happier then."
+            erb :error500
+        else
+            if @page = @wiki.page(name)
+                # may success come to those who enter here.
+                @pages = @wiki.list
+                @name = @page.name
+                @content = @page.content
+                erb :show
+            else
+                status 404
+                @newpage = name
+                @name = "404: Page not found"
+                erb :error404
+            end
+        end
+    end
 end
