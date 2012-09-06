@@ -12,6 +12,7 @@ class CommonplaceServer < Sinatra::Base
 
 	before do
 		@wiki = Commonplace.new(options.dir)
+		@pages = @wiki.list
 	end
 	
 	# show the homepage
@@ -22,7 +23,6 @@ class CommonplaceServer < Sinatra::Base
 	# show the known page list
 	get '/p/list' do
 		@name = "Known pages"
-		@pages = @wiki.list
 		erb :list
 	end
 
@@ -97,7 +97,6 @@ class CommonplaceServer < Sinatra::Base
         else
             if @page = @wiki.page(name)
                 # may success come to those who enter here.
-                @pages = @wiki.list
                 @name = @page.name
                 @content = @page.content
                 erb :show
