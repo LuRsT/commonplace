@@ -1,0 +1,50 @@
+<!doctype html>
+<head>
+    <title><%= @name %> | <%= options.sitename %></title>
+    <meta charset="utf-8">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/screen.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span3 offset0 columns">
+                <div id="page">
+                    <h1 class="title">Index</h1>
+                    <% for page in @pages do %>
+                        <li><a href="/<%= page[:link] %>"><%= page[:title] %></a></li>
+                    <% end %>
+                    <br />
+                    <hr/>
+                <% if !@error %>
+                    <a href="/p/list" class="btn small <%= "disabled" if @name == "Known pages" %>" title="List">L</a>
+                    <% if @page && !@editing %>
+                        <a href="/p/new" class="btn small" title="New">N</a>
+                        <a href="/<%= @page.permalink %>/edit" class="btn small primary" title="Edit">E</a>
+                    <% elsif @newpage %>
+                        <a href="/p/new/<%= @newpage %>" class="btn small primary" title="Create">
+                            C<%= @wiki.file_to_pagename(@newpage) %>
+                        </a>
+                    <% end %>
+                <% end %>
+                </div>
+            </div>
+            <div class="span18 offset3 columns">
+                <div id="page">
+                    <h1 class="title"><%= '<a href="/">Home</a> &gt; ' if @name != "Home" %><%= @name %></h1>
+                    <% if @alert %>
+                        <div class="alert-message error"><%= @alert %></div>
+                    <% end %>
+                    <%= yield %>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="footer" class="span18 offset0 columns">
+                Powered by <a href="https://github.com/fredoliveira/commonplace">Commonplace</a>, designed and developed by <a href="http://helloform.com">Fred Oliveira</a>, modified by <a href="https://github.com/lurst">Gil Gonçalves</a>. Source code and updates are <a href="https://github.com/lurst/commonplace">on Github</a>.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
